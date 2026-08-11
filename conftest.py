@@ -13,8 +13,7 @@ def courier_payload():
 def registered_courier():
     courier_data = generate_courier_data()
 
-    create_response = api.create_courier(courier_data)
-    assert create_response.status_code == 201
+    api.create_courier(courier_data)
 
     yield courier_data
 

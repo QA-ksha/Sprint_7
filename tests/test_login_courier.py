@@ -1,5 +1,4 @@
-from pathlib import Path
-
+import pytest
 import allure
 
 import api
@@ -48,6 +47,7 @@ class TestLoginCourier:
         assert response.status_code == 400
         assert response.json()["message"] == data.LOGIN_MISSING_DATA_ERROR
 
+    @pytest.mark.xfail(reason="BUG-001: API возвращает 504 вместо 400 без password")
     @allure.issue(
         "BUG-001",
         "Авторизация без пароля возвращает 504 вместо 400"
@@ -62,25 +62,6 @@ class TestLoginCourier:
         del login_payload["password"]
 
         response = api.login_courier(login_payload)
-
-        if response.status_code == 504:
-            screenshot_path = (
-                Path(__file__).resolve().parent.parent
-                / "screenshots"
-                / "bug-001-login-without-password.jpg"
-            )
-
-            allure.attach.file(
-                screenshot_path,
-                name="BUG-001: API вернул 504 Service unavailable",
-                attachment_type=allure.attachment_type.JPG,
-            )
-
-            allure.attach(
-                response.text,
-                name="Фактический ответ API",
-                attachment_type=allure.attachment_type.TEXT,
-            )
 
         assert response.status_code == 400
         assert response.json()["message"] == data.LOGIN_MISSING_DATA_ERROR
