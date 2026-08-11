@@ -1,0 +1,16 @@
+# Виртуальное окружение
+venv/
+
+# Кэш Python и pytest
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Отчёт Allure в браузере, если генерировался
+allure-report/
+
+# Настройки IDE и ОС
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
